@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Supply Velocity — Client Feedback Survey</title>
+<meta name="robots" content="noindex, nofollow" />
+<style>
+  /* ---------------------------------------------------------------
+     Supply Velocity brand palette (pulled from supplyvelocity.com)
+       Navy (headings / logo)  #0f172b / #012c41
+       Slate body text         #334155
+       Gold / amber accent     #f59e0b  (hover #d97706)
+       Light background        #f8fafc
+     --------------------------------------------------------------- */
+  :root {
+    --navy: #0f172b;
+    --navy-deep: #012c41;
+    --slate: #334155;
+    --slate-soft: #64748b;
+    --gold: #f59e0b;
+    --gold-dark: #d97706;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --detractor: #ef4444;
+    --passive: #f59e0b;
+    --promoter: #22c55e;
+    --font: "Segoe UI", ui-sans-serif, system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #e2e8f0 0%, rgba(226,232,240,0) 60%),
+      var(--bg);
+    color: var(--slate);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 16px 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .brand {
+    text-align: center;
+    margin-bottom: 26px;
+  }
+  .brand svg { width: 230px; height: auto; }
+  .brand .subtitle {
+    margin-top: 6px;
+    font-size: 15px;
+    color: var(--slate-soft);
+    letter-spacing: .2px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 560px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    box-shadow: 0 20px 40px -24px rgba(15, 23, 43, 0.35);
+    padding: 34px 34px 30px;
+  }
+
+  .card h1 {
+    font-size: 22px;
+    color: var(--navy);
+    margin: 0 0 6px;
+    font-weight: 700;
+  }
+  .card .lede {
+    margin: 0 0 26px;
+    font-size: 15px;
+    color: var(--slate-soft);
+  }
+
+  .question {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    margin: 0 0 14px;
+  }
+
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: var(--slate-soft);
+    margin-bottom: 8px;
+  }
+
+  .scale {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    gap: 6px;
+    margin-bottom: 26px;
+  }
+  .scale button {
+    aspect-ratio: 1 / 1;
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    cursor: pointer;
+    transition: transform .08s ease, border-color .12s ease, background .12s ease, box-shadow .12s ease;
+    padding: 0;
+  }
+  .scale button:hover {
+    border-color: var(--gold);
+    background: #fffdf5;
+  }
+  .scale button.selected {
+    color: #fff;
+    border-color: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px -8px rgba(15,23,43,.45);
+  }
+  .scale button.selected.detractor { background: var(--detractor); }
+  .scale button.selected.passive   { background: var(--passive); }
+  .scale button.selected.promoter  { background: var(--promoter); }
+
+  .followup { margin-bottom: 24px; }
+  textarea {
+    width: 100%;
+    min-height: 108px;
+    resize: vertical;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 13px 14px;
+    font-family: inherit;
+    font-size: 14.5px;
+    color: var(--slate);
+    background: #fff;
+    transition: border-color .12s ease, box-shadow .12s ease;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, .18);
+  }
+
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 7px;
+  }
+  .field label span { font-weight: 400; color: var(--slate-soft); }
+  .field input {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 13px;
+    font-family: inherit;
+    font-size: 14.5px;
+    color: var(--slate);
+  }
+  .field input:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, .18);
+  }
+  .row { display: flex; gap: 14px; }
+  .row .field { flex: 1; }
+
+  button.submit {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--gold);
+    cursor: pointer;
+    transition: background .12s ease, opacity .12s ease;
+    font-family: inherit;
+  }
+  button.submit:hover:not(:disabled) { background: var(--gold-dark); }
+  button.submit:disabled { opacity: .55; cursor: not-allowed; }
+
+  .error {
+    color: var(--detractor);
+    font-size: 13.5px;
+    margin: 12px 0 0;
+    display: none;
+  }
+
+  .footer {
+    margin-top: 22px;
+    font-size: 12.5px;
+    color: var(--slate-soft);
+    text-align: center;
+    max-width: 560px;
+  }
+
+  /* Thank-you state */
+  .thanks { text-align: center; padding: 18px 6px 8px; display: none; }
+  .thanks .check {
+    width: 62px; height: 62px; margin: 0 auto 18px;
+    border-radius: 50%;
+    background: rgba(34,197,94,.12);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .thanks .check svg { width: 30px; height: 30px; stroke: var(--promoter); }
+  .thanks h2 { color: var(--navy); font-size: 21px; margin: 0 0 8px; }
+  .thanks p { color: var(--slate-soft); font-size: 15px; margin: 0; }
+
+  @media (max-width: 460px) {
+    .card { padding: 26px 20px 24px; }
+    .scale { gap: 4px; }
+    .scale button { font-size: 13px; border-radius: 8px; }
+    .row { flex-direction: column; gap: 0; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="brand">
+    <!-- Supply Velocity logo (inlined from supplyvelocity.com) -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 392.804 144.667" role="img" aria-label="Supply Velocity">
+      <linearGradient id="sv1" gradientUnits="userSpaceOnUse" x1="80.8828" y1="54.4165" x2="211.2734" y2="54.4165">
+        <stop offset="0" style="stop-color:#0f172b"/><stop offset="1" style="stop-color:#1c398e"/>
+      </linearGradient>
+      <path style="fill:url(#sv1)" d="M80.883,68.418c0-15.333,12.672-28.003,28.302-28.003h73.786l28.303,28.003H80.883z"/>
+      <path style="fill:#012C41" d="M107.668,7.515c-33.493,0-60.646,27.153-60.646,60.647l27.796-0.001c0-18.143,14.708-32.851,32.85-32.851l71.32-0.124L151.557,7.605L107.668,7.515z"/>
+      <linearGradient id="sv2" gradientUnits="userSpaceOnUse" x1="0" y1="87.2217" x2="130.3906" y2="87.2217">
+        <stop offset="0" style="stop-color:#1c398e"/><stop offset="1" style="stop-color:#0f172b"/>
+      </linearGradient>
+      <path style="fill:url(#sv2)" d="M130.391,73.22c0,15.333-12.672,28.004-28.302,28.004H28.303L0,73.22H130.391z"/>
+      <path style="fill:#012C41" d="M103.605,134.124c33.492,0,60.646-27.154,60.646-60.647l-27.797,0.001c0,18.143-14.708,32.851-32.85,32.851l-71.321,0.124l27.433,27.582L103.605,134.124z"/>
+      <g style="fill:#0f172b">
+        <path d="M169.03,134.846c-3.149,0-5.609-0.78-7.709-1.891l1.889-4.2c1.5,0.87,3.75,1.681,5.881,1.681c2.1,0,2.939-0.78,2.939-1.92c0-0.931-0.66-1.32-2.1-1.71l-2.46-0.631c-3.03-0.81-5.101-2.459-5.101-6.06c0-4.14,3.42-6.9,8.101-6.9c2.91,0,5.61,0.75,7.47,2.04l-2.58,3.81c-1.41-0.93-3.27-1.47-4.709-1.47c-1.381,0-2.131,0.66-2.131,1.5c0,0.69,0.48,1.38,2.04,1.77l2.13,0.54c2.25,0.57,5.49,1.59,5.49,5.79C178.181,132.206,174.46,134.846,169.03,134.846z"/>
+        <path d="M195.221,129.746c0,1.59,0.33,2.7,0.78,3.51l-4.53,1.62c-0.36-0.42-0.54-1.08-0.66-1.409c-0.899,0.81-2.22,1.409-3.87,1.409c-2.85,0-4.32-0.93-4.859-2.699c-0.24-0.78-0.301-1.711-0.301-3.75v-9l5.221-0.84v11.22c0,0.96,0.479,1.17,1.38,1.17c0.51,0,1.17-0.3,1.62-0.78v-10.77l5.22-0.84V129.746z"/>
+        <path d="M207.521,118.616c5.43,0,6.09,4.47,6.09,7.35c0,6.03-2.4,8.91-6.57,8.91c-0.93,0-1.71-0.21-2.43-0.51c0.15,0.42,0.24,1.11,0.24,2.37v3.18l-5.221,1.41v-16.68c0-1.86-0.09-3.54-0.48-5.19l4.801-0.81c0.15,0.42,0.27,0.9,0.33,1.38C204.61,119.396,206.021,118.616,207.521,118.616z M204.851,123.416v6.931c0.06,0.239,0.479,0.42,0.99,0.42c1.229,0,2.189-0.271,2.189-4.351c0-2.43-0.18-3.78-1.561-3.78C205.63,122.636,205.12,122.996,204.851,123.416z"/>
+        <path d="M224.771,118.616c5.43,0,6.09,4.47,6.09,7.35c0,6.03-2.4,8.91-6.57,8.91c-0.93,0-1.711-0.21-2.43-0.51c0.149,0.42,0.239,1.11,0.239,2.37v3.18l-5.22,1.41v-16.68c0-1.86-0.09-3.54-0.48-5.19l4.801-0.81c0.149,0.42,0.27,0.9,0.33,1.38C221.86,119.396,223.271,118.616,224.771,118.616z M222.1,123.416v6.931c0.06,0.239,0.479,0.42,0.99,0.42c1.229,0,2.19-0.271,2.19-4.351c0-2.43-0.181-3.78-1.561-3.78C222.88,122.636,222.37,122.996,222.1,123.416z"/>
+        <path d="M238.6,134.875c-4.41,0-4.5-2.279-4.5-5.37v-10.56c0-2.04,0.03-4.44-0.181-5.64l5.16-0.87c0.15,0.93,0.24,2.28,0.24,3.87v11.49c0,2.73,0.09,3.45,1.26,3.45c0.18,0,0.36-0.03,0.541-0.09l0.84,3.24C241.27,134.666,240.04,134.875,238.6,134.875z"/>
+        <path d="M253.057,134.516c-1.771,4.59-3.03,6.689-7.92,7.08l-1.83-3.36c3.149-0.72,4.021-1.32,5.22-3.75h-1.439c-0.21-1.08-0.689-2.79-1.11-3.99l-3.84-11.34l5.34-0.39l2.31,8.1c0.301,1.05,0.57,2.13,0.721,3.18h0.029c0.211-1.59,0.57-3.39,1.051-4.8l2.07-6.24h5.279L253.057,134.516z"/>
+      </g>
+      <g style="fill:#1c398e">
+        <path d="M268.956,134.486h-4.83l-2.67-20.91h5.82l0.87,8.31c0.149,1.29,0.24,2.07,0.149,3.93h0.031c0.689-1.68,1.379-3.03,1.979-4.08l4.71-8.16h5.76L268.956,134.486z"/>
+        <path d="M282.483,129.295c0,1.5,0.568,1.92,2.16,1.92c1.318,0,3.029-0.63,4.35-1.529l1.02,3.27c-2.461,1.38-4.77,1.92-6.359,1.92c-4.441,0-6.451-1.77-6.451-5.699c0-5.701,3.361-10.59,9.09-10.59c3.24,0,5.852,1.23,5.852,4.41c0,2.88-2.672,5.49-7.74,5.49c-0.871,0-1.59-0.06-1.83-0.12C282.513,128.666,282.483,129.146,282.483,129.295z M284.493,125.036c1.17,0,2.459-0.6,2.459-1.71c0-0.69-0.42-1.08-1.17-1.08c-1.32,0-2.039,1.05-2.369,2.641C283.563,124.946,283.923,125.036,284.493,125.036z"/>
+        <path d="M297.153,113.335l5.43-0.9c0.059,0.75-0.121,2.34-0.451,3.87l-2.459,11.49c-0.57,2.73-0.631,3.45,0.539,3.45c0.18,0,0.361-0.03,0.57-0.09l0.15,3.24c-0.75,0.27-2.041,0.479-3.48,0.479c-4.41,0-4.02-2.279-3.359-5.37l2.25-10.56C297.122,115.346,297.183,114.206,297.153,113.335z"/>
+        <path d="M318.962,124.106c0,4.05-2.25,10.77-9.48,10.77c-3.66,0-5.729-2.01-5.729-5.58c0-3.989,2.158-10.68,9.479-10.68C316.472,118.616,318.962,120.206,318.962,124.106z M309.212,129.806c0,0.96,0.33,1.409,1.17,1.409c2.16,0,3.061-6.51,3.061-7.56s-0.391-1.41-1.17-1.41C310.112,122.246,309.212,128.726,309.212,129.806z"/>
+        <path d="M326.013,134.875c-4.32,0-6.422-2.76-5.311-7.979c1.109-5.25,4.289-8.28,8.85-8.28c2.221,0,3.42,0.57,4.68,1.83l-3.061,3.15c-0.449-0.63-1.229-1.14-1.949-1.14c-1.199,0-2.1,0.96-2.76,4.11c-0.66,3.149-0.6,4.439,0.9,4.439c1.17,0,2.25-0.569,3.119-1.38l1.561,3.061C330.032,134.335,327.901,134.875,326.013,134.875z"/>
+        <path d="M334.171,134.486l3.24-15.24l5.34-0.48l-3.359,15.72H334.171z M340.802,118.016c-1.621,0-2.971-1.32-2.971-2.94s1.381-2.94,3.061-2.94c1.65,0,2.939,1.32,2.939,2.94S342.481,118.016,340.802,118.016z"/>
+        <path d="M352.501,119.006h2.82l-1.41,3.42h-2.16l-1.32,6.24c-0.449,2.16-0.24,2.641,1.08,2.641c0.48,0,0.99-0.12,1.381-0.301l-0.031,3c-1.439,0.631-2.818,0.9-3.869,0.9c-3.27,0-4.949-0.78-4.26-4.05l1.799-8.43h-1.26l0.75-3.42h1.26c0.33-1.53,0.66-2.94,0.99-3.84l5.34-0.78C353.101,116.036,352.802,117.566,352.501,119.006z"/>
+        <path d="M364.562,134.516c-2.34,3.989-3.42,6.18-9.48,7.08l-1.141-3.36c3.33-0.72,4.32-1.32,6.031-3.75h-1.441c0.031-1.08-0.119-2.79-0.27-3.99l-1.41-11.34l5.279-0.39l0.602,8.1c0.09,1.05,0.119,2.13,0.029,3.18h0.029c0.57-1.59,1.291-3.39,2.07-4.8l3.42-6.24h5.4L364.562,134.516z"/>
+        <path d="M381.237,111.724c2.828,0,5.209,2.24,5.209,5.208c0,2.968-2.381,5.208-5.209,5.208c-2.842,0-5.207-2.24-5.207-5.208C376.03,113.964,378.396,111.724,381.237,111.724z M381.237,121.384c2.381,0,4.285-1.932,4.285-4.452s-1.904-4.452-4.285-4.452c-2.393,0-4.283,1.932-4.283,4.452S378.845,121.384,381.237,121.384z M379.249,113.88h2.297c1.441,0,2.129,0.574,2.129,1.736c0,1.106-0.701,1.568-1.611,1.666l1.75,2.688h-0.994l-1.652-2.618h-0.992v2.618h-0.926V113.88z M380.175,116.596h0.951c0.826,0,1.623-0.042,1.623-1.022c0-0.84-0.727-0.938-1.357-0.938h-1.217V116.596z"/>
+      </g>
+    </svg>
+    <div class="subtitle">Client Feedback Survey</div>
+  </div>
+
+  <div class="card">
+    <!-- FORM -->
+    <form id="npsForm" novalidate>
+      <h1>We'd love your feedback</h1>
+      <p class="lede">This takes less than 2 minutes.</p>
+
+      <p class="question">How likely are you to recommend Supply Velocity to a colleague or another business?</p>
+      <div class="scale-labels">
+        <span>Not at all likely</span>
+        <span>Extremely likely</span>
+      </div>
+      <div class="scale" id="scale" role="radiogroup" aria-label="Score from 0 to 10"></div>
+
+      <div class="followup">
+        <p class="question" id="reasonLabel">What's the main reason for your score?</p>
+        <textarea id="reason" name="reason" placeholder="Share your thoughts — what's working well, what could be better..."></textarea>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label>Your name <span>(optional)</span></label>
+          <input type="text" id="name" name="name" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label>Company <span>(optional)</span></label>
+          <input type="text" id="company" name="company" autocomplete="organization" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Email <span>(optional — only if you'd like a follow-up)</span></label>
+        <input type="email" id="email" name="email" autocomplete="email" />
+      </div>
+
+      <button type="submit" class="submit" id="submitBtn">Submit Feedback</button>
+      <p class="error" id="error">Please select a score from 0 to 10.</p>
+    </form>
+
+    <!-- THANK YOU -->
+    <div class="thanks" id="thanks">
+      <div class="check">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6 9 17l-5-5"/>
+        </svg>
+      </div>
+      <h2>Thank you for your feedback!</h2>
+      <p id="thanksMsg">We truly appreciate you taking the time to help us improve.</p>
+    </div>
+  </div>
+
+  <p class="footer">Your response is confidential and will only be used to improve our services.<br />
+    &copy; <span id="yr"></span> Supply Velocity, Inc. &middot; Lean Six Sigma &amp; Supply Chain Management</p>
+
+<script>
+  /* =================================================================
+     CONFIG — paste your Google Apps Script Web App URL below.
+     See README.md for the 5-minute setup.
+     ================================================================= */
+  const ENDPOINT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+  /* ================================================================= */
+
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  // Optional: pre-tag a client via URL, e.g. ?client=Acme%20Corp&email=jane@acme.com
+  const params = new URLSearchParams(location.search);
+  if (params.get("client"))  document.getElementById("company").value = params.get("client");
+  if (params.get("company")) document.getElementById("company").value = params.get("company");
+  if (params.get("name"))    document.getElementById("name").value = params.get("name");
+  if (params.get("email"))   document.getElementById("email").value = params.get("email");
+
+  let selectedScore = null;
+
+  // Build the 0–10 scale
+  const scaleEl = document.getElementById("scale");
+  for (let i = 0; i <= 10; i++) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = i;
+    b.setAttribute("role", "radio");
+    b.setAttribute("aria-checked", "false");
+    b.addEventListener("click", () => selectScore(i, b));
+    scaleEl.appendChild(b);
+  }
+
+  function categoryClass(score) {
+    if (score <= 6) return "detractor";
+    if (score <= 8) return "passive";
+    return "promoter";
+  }
+  function categoryName(score) {
+    if (score <= 6) return "Detractor";
+    if (score <= 8) return "Passive";
+    return "Promoter";
+  }
+
+  function selectScore(score, btn) {
+    selectedScore = score;
+    document.querySelectorAll(".scale button").forEach(b => {
+      b.classList.remove("selected", "detractor", "passive", "promoter");
+      b.setAttribute("aria-checked", "false");
+    });
+    btn.classList.add("selected", categoryClass(score));
+    btn.setAttribute("aria-checked", "true");
+    document.getElementById("error").style.display = "none";
+
+    // Adapt the follow-up question to the score
+    const label = document.getElementById("reasonLabel");
+    if (score <= 6) {
+      label.textContent = "We're sorry to hear that. What's the main reason for your score, and how can we do better?";
+    } else if (score <= 8) {
+      label.textContent = "Thanks! What would it take to make your experience a 9 or 10?";
+    } else {
+      label.textContent = "That's great to hear! What do you value most about working with us?";
+    }
+  }
+
+  const form = document.getElementById("npsForm");
+  const submitBtn = document.getElementById("submitBtn");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (selectedScore === null) {
+      document.getElementById("error").style.display = "block";
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting…";
+
+    const payload = {
+      score: selectedScore,
+      category: categoryName(selectedScore),
+      reason: document.getElementById("reason").value.trim(),
+      name: document.getElementById("name").value.trim(),
+      company: document.getElementById("company").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      page: location.href,
+      userAgent: navigator.userAgent
+    };
+
+    try {
+      if (ENDPOINT_URL && !ENDPOINT_URL.startsWith("PASTE_")) {
+        // Apps Script Web Apps don't send CORS headers; text/plain avoids a
+        // preflight and no-cors lets the row write reliably. Response is opaque.
+        await fetch(ENDPOINT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+      } else {
+        console.warn("ENDPOINT_URL not configured — logging payload instead:", payload);
+      }
+      showThanks(selectedScore);
+    } catch (err) {
+      console.error(err);
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit Feedback";
+      const el = document.getElementById("error");
+      el.textContent = "Sorry, something went wrong. Please try again.";
+      el.style.display = "block";
+    }
+  });
+
+  function showThanks(score) {
+    form.style.display = "none";
+    const msg = document.getElementById("thanksMsg");
+    if (score <= 6) {
+      msg.textContent = "We appreciate your honesty — a member of our team may reach out to make things right.";
+    } else if (score >= 9) {
+      msg.textContent = "We're thrilled you're happy. If you have a moment, we'd love a public review too!";
+    }
+    document.getElementById("thanks").style.display = "block";
+  }
+</script>
+</body>
+</html>

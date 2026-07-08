@@ -23,14 +23,13 @@
     --bg: #f1f5f9;
     --card: #ffffff;
     --border: #e2e8f0;
-    --detractor: #ef4444;
-    --passive: #f59e0b;
-    --promoter: #22c55e;
+    --neg: #ef4444;
+    --neu: #f59e0b;
+    --pos: #22c55e;
     --font: "Segoe UI", ui-sans-serif, system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
   }
 
   * { box-sizing: border-box; }
-
   html, body { margin: 0; padding: 0; }
 
   body {
@@ -47,10 +46,7 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  .brand {
-    text-align: center;
-    margin-bottom: 26px;
-  }
+  .brand { text-align: center; margin-bottom: 26px; }
   .brand svg { width: 230px; height: auto; }
   .brand .subtitle {
     margin-top: 6px;
@@ -69,151 +65,93 @@
     padding: 34px 34px 30px;
   }
 
-  .card h1 {
-    font-size: 22px;
-    color: var(--navy);
-    margin: 0 0 6px;
-    font-weight: 700;
-  }
-  .card .lede {
-    margin: 0 0 26px;
-    font-size: 15px;
-    color: var(--slate-soft);
-  }
+  .card h1 { font-size: 22px; color: var(--navy); margin: 0 0 6px; font-weight: 700; }
+  .card .lede { margin: 0 0 26px; font-size: 15px; color: var(--slate-soft); }
 
-  .question {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--navy);
-    margin: 0 0 14px;
-  }
+  .question { font-size: 16px; font-weight: 600; color: var(--navy); margin: 0 0 14px; }
 
+  .divider { height: 1px; background: var(--border); margin: 4px 0 24px; border: 0; }
+
+  /* NPS 0–10 scale */
   .scale-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12.5px;
-    color: var(--slate-soft);
-    margin-bottom: 8px;
+    display: flex; justify-content: space-between;
+    font-size: 12.5px; color: var(--slate-soft); margin-bottom: 8px;
   }
-
   .scale {
-    display: grid;
-    grid-template-columns: repeat(11, 1fr);
-    gap: 6px;
-    margin-bottom: 26px;
+    display: grid; grid-template-columns: repeat(11, 1fr); gap: 6px; margin-bottom: 28px;
   }
   .scale button {
-    aspect-ratio: 1 / 1;
-    border: 1px solid var(--border);
-    background: #fff;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--navy);
-    cursor: pointer;
+    aspect-ratio: 1 / 1; border: 1px solid var(--border); background: #fff;
+    border-radius: 10px; font-size: 15px; font-weight: 600; color: var(--navy);
+    cursor: pointer; padding: 0;
     transition: transform .08s ease, border-color .12s ease, background .12s ease, box-shadow .12s ease;
-    padding: 0;
   }
-  .scale button:hover {
-    border-color: var(--gold);
-    background: #fffdf5;
-  }
+  .scale button:hover { border-color: var(--gold); background: #fffdf5; }
   .scale button.selected {
-    color: #fff;
-    border-color: transparent;
-    transform: translateY(-2px);
+    color: #fff; border-color: transparent; transform: translateY(-2px);
     box-shadow: 0 8px 16px -8px rgba(15,23,43,.45);
   }
-  .scale button.selected.detractor { background: var(--detractor); }
-  .scale button.selected.passive   { background: var(--passive); }
-  .scale button.selected.promoter  { background: var(--promoter); }
+  .scale button.selected.neg { background: var(--neg); }
+  .scale button.selected.neu { background: var(--neu); }
+  .scale button.selected.pos { background: var(--pos); }
 
-  .followup { margin-bottom: 24px; }
+  /* 1–3 core-value questions (segmented control) */
+  .micro { margin-bottom: 24px; }
+  .micro .question { margin-bottom: 10px; }
+  .seg { display: flex; gap: 8px; }
+  .seg button {
+    flex: 1; border: 1px solid var(--border); background: #fff;
+    border-radius: 10px; padding: 12px 8px; cursor: pointer; font-family: inherit;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    transition: border-color .12s ease, background .12s ease, box-shadow .12s ease, transform .08s ease;
+  }
+  .seg button .lbl { font-size: 14.5px; font-weight: 600; color: var(--navy); }
+  .seg button .num { font-size: 11px; color: var(--slate-soft); }
+  .seg button:hover { border-color: var(--gold); background: #fffdf5; }
+  .seg button.selected { color: #fff; border-color: transparent; transform: translateY(-1px); box-shadow: 0 6px 14px -8px rgba(15,23,43,.45); }
+  .seg button.selected .lbl, .seg button.selected .num { color: #fff; }
+  .seg button.selected.v1 { background: var(--neg); }
+  .seg button.selected.v2 { background: var(--neu); }
+  .seg button.selected.v3 { background: var(--pos); }
+
+  .followup { margin: 4px 0 24px; }
   textarea {
-    width: 100%;
-    min-height: 108px;
-    resize: vertical;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 13px 14px;
-    font-family: inherit;
-    font-size: 14.5px;
-    color: var(--slate);
-    background: #fff;
+    width: 100%; min-height: 100px; resize: vertical;
+    border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px;
+    font-family: inherit; font-size: 14.5px; color: var(--slate); background: #fff;
     transition: border-color .12s ease, box-shadow .12s ease;
   }
-  textarea:focus {
-    outline: none;
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(245, 158, 11, .18);
-  }
+  textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245, 158, 11, .18); }
 
   .field { margin-bottom: 18px; }
-  .field label {
-    display: block;
-    font-size: 13.5px;
-    font-weight: 600;
-    color: var(--navy);
-    margin-bottom: 7px;
-  }
+  .field label { display: block; font-size: 13.5px; font-weight: 600; color: var(--navy); margin-bottom: 7px; }
   .field label span { font-weight: 400; color: var(--slate-soft); }
   .field input {
-    width: 100%;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 11px 13px;
-    font-family: inherit;
-    font-size: 14.5px;
-    color: var(--slate);
+    width: 100%; border: 1px solid var(--border); border-radius: 10px;
+    padding: 11px 13px; font-family: inherit; font-size: 14.5px; color: var(--slate);
   }
-  .field input:focus {
-    outline: none;
-    border-color: var(--gold);
-    box-shadow: 0 0 0 3px rgba(245, 158, 11, .18);
-  }
+  .field input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245, 158, 11, .18); }
   .row { display: flex; gap: 14px; }
   .row .field { flex: 1; }
 
   button.submit {
-    width: 100%;
-    border: none;
-    border-radius: 12px;
-    padding: 15px;
-    font-size: 16px;
-    font-weight: 700;
-    color: #fff;
-    background: var(--gold);
-    cursor: pointer;
-    transition: background .12s ease, opacity .12s ease;
-    font-family: inherit;
+    width: 100%; border: none; border-radius: 12px; padding: 15px;
+    font-size: 16px; font-weight: 700; color: #fff; background: var(--gold);
+    cursor: pointer; font-family: inherit; transition: background .12s ease, opacity .12s ease;
   }
   button.submit:hover:not(:disabled) { background: var(--gold-dark); }
   button.submit:disabled { opacity: .55; cursor: not-allowed; }
 
-  .error {
-    color: var(--detractor);
-    font-size: 13.5px;
-    margin: 12px 0 0;
-    display: none;
-  }
+  .error { color: var(--neg); font-size: 13.5px; margin: 12px 0 0; display: none; }
 
-  .footer {
-    margin-top: 22px;
-    font-size: 12.5px;
-    color: var(--slate-soft);
-    text-align: center;
-    max-width: 560px;
-  }
+  .footer { margin-top: 22px; font-size: 12.5px; color: var(--slate-soft); text-align: center; max-width: 560px; }
 
-  /* Thank-you state */
   .thanks { text-align: center; padding: 18px 6px 8px; display: none; }
   .thanks .check {
-    width: 62px; height: 62px; margin: 0 auto 18px;
-    border-radius: 50%;
-    background: rgba(34,197,94,.12);
-    display: flex; align-items: center; justify-content: center;
+    width: 62px; height: 62px; margin: 0 auto 18px; border-radius: 50%;
+    background: rgba(34,197,94,.12); display: flex; align-items: center; justify-content: center;
   }
-  .thanks .check svg { width: 30px; height: 30px; stroke: var(--promoter); }
+  .thanks .check svg { width: 30px; height: 30px; stroke: var(--pos); }
   .thanks h2 { color: var(--navy); font-size: 21px; margin: 0 0 8px; }
   .thanks p { color: var(--slate-soft); font-size: 15px; margin: 0; }
 
@@ -221,6 +159,8 @@
     .card { padding: 26px 20px 24px; }
     .scale { gap: 4px; }
     .scale button { font-size: 13px; border-radius: 8px; }
+    .seg button { padding: 10px 4px; }
+    .seg button .lbl { font-size: 13px; }
     .row { flex-direction: column; gap: 0; }
   }
 </style>
@@ -269,6 +209,7 @@
       <h1>We'd love your feedback</h1>
       <p class="lede">This takes less than 2 minutes.</p>
 
+      <!-- Q1: NPS -->
       <p class="question">How likely are you to recommend Supply Velocity to a colleague or another business?</p>
       <div class="scale-labels">
         <span>Not at all likely</span>
@@ -276,9 +217,15 @@
       </div>
       <div class="scale" id="scale" role="radiogroup" aria-label="Score from 0 to 10"></div>
 
+      <hr class="divider" />
+
+      <!-- Core-value questions (generated from CORE_QUESTIONS below) -->
+      <div id="microQuestions"></div>
+
+      <!-- Comments -->
       <div class="followup">
-        <p class="question" id="reasonLabel">What's the main reason for your score?</p>
-        <textarea id="reason" name="reason" placeholder="Share your thoughts — what's working well, what could be better..."></textarea>
+        <p class="question" id="reasonLabel">Any additional comments?</p>
+        <textarea id="reason" name="reason" placeholder="Tell us what's working well or what we could do better..."></textarea>
       </div>
 
       <div class="row">
@@ -297,7 +244,7 @@
       </div>
 
       <button type="submit" class="submit" id="submitBtn">Submit Feedback</button>
-      <p class="error" id="error">Please select a score from 0 to 10.</p>
+      <p class="error" id="error"></p>
     </form>
 
     <!-- THANK YOU -->
@@ -317,24 +264,31 @@
 
 <script>
   /* =================================================================
-     CONFIG — paste your Google Apps Script Web App URL below.
-     See README.md for the 5-minute setup.
+     CONFIG
      ================================================================= */
   const ENDPOINT_URL = "https://script.google.com/a/macros/outriderdigital.com/s/AKfycbzkdwq5qco-Alq6XY5uqDgkLuu61Y_jcMfOboRU5sN3ToTpzb9PzquuDnxG05mOIokH/exec";
+
+  // Supply Velocity's three core-value questions (1–3 scale).
+  // To DROP a question (e.g. "Quality"), just delete its line here.
+  // To ADD one, copy the pattern. No other changes needed.
+  const CORE_QUESTIONS = [
+    { key: "value_delivered",     text: "Did we deliver value?",                     options: ["No", "Neutral", "Yes"] },
+    { key: "quality",             text: "Quality of our work?",                      options: ["Low", "Neutral", "High"] },
+    { key: "easy_to_do_business", text: "Were we easy to do business with?",         options: ["No", "Neutral", "Yes"] }
+  ];
   /* ================================================================= */
 
   document.getElementById("yr").textContent = new Date().getFullYear();
 
-  // Optional: pre-tag a client via URL, e.g. ?client=Acme%20Corp&email=jane@acme.com
+  // Optional: pre-tag a client via URL, e.g. ?company=Acme&name=Jane&email=jane@acme.com
   const params = new URLSearchParams(location.search);
   if (params.get("client"))  document.getElementById("company").value = params.get("client");
   if (params.get("company")) document.getElementById("company").value = params.get("company");
   if (params.get("name"))    document.getElementById("name").value = params.get("name");
   if (params.get("email"))   document.getElementById("email").value = params.get("email");
 
+  /* ---------- NPS 0–10 ---------- */
   let selectedScore = null;
-
-  // Build the 0–10 scale
   const scaleEl = document.getElementById("scale");
   for (let i = 0; i <= 10; i++) {
     const b = document.createElement("button");
@@ -345,46 +299,78 @@
     b.addEventListener("click", () => selectScore(i, b));
     scaleEl.appendChild(b);
   }
-
-  function categoryClass(score) {
-    if (score <= 6) return "detractor";
-    if (score <= 8) return "passive";
-    return "promoter";
-  }
-  function categoryName(score) {
-    if (score <= 6) return "Detractor";
-    if (score <= 8) return "Passive";
-    return "Promoter";
-  }
-
+  function npsClass(s) { return s <= 6 ? "neg" : s <= 8 ? "neu" : "pos"; }
+  function categoryName(s) { return s <= 6 ? "Detractor" : s <= 8 ? "Passive" : "Promoter"; }
   function selectScore(score, btn) {
     selectedScore = score;
     document.querySelectorAll(".scale button").forEach(b => {
-      b.classList.remove("selected", "detractor", "passive", "promoter");
+      b.classList.remove("selected", "neg", "neu", "pos");
       b.setAttribute("aria-checked", "false");
     });
-    btn.classList.add("selected", categoryClass(score));
+    btn.classList.add("selected", npsClass(score));
     btn.setAttribute("aria-checked", "true");
-    document.getElementById("error").style.display = "none";
-
-    // Adapt the follow-up question to the score
-    const label = document.getElementById("reasonLabel");
-    if (score <= 6) {
-      label.textContent = "We're sorry to hear that. What's the main reason for your score, and how can we do better?";
-    } else if (score <= 8) {
-      label.textContent = "Thanks! What would it take to make your experience a 9 or 10?";
-    } else {
-      label.textContent = "That's great to hear! What do you value most about working with us?";
-    }
+    clearError();
   }
 
+  /* ---------- Core-value questions (1–3) ---------- */
+  const coreAnswers = {};   // key -> 1 | 2 | 3
+  const microWrap = document.getElementById("microQuestions");
+  CORE_QUESTIONS.forEach(q => {
+    const block = document.createElement("div");
+    block.className = "micro";
+    block.dataset.key = q.key;
+
+    const label = document.createElement("p");
+    label.className = "question";
+    label.textContent = q.text;
+    block.appendChild(label);
+
+    const seg = document.createElement("div");
+    seg.className = "seg";
+    seg.setAttribute("role", "radiogroup");
+    seg.setAttribute("aria-label", q.text);
+
+    q.options.forEach((opt, idx) => {
+      const val = idx + 1; // 1, 2, 3
+      const b = document.createElement("button");
+      b.type = "button";
+      b.setAttribute("role", "radio");
+      b.setAttribute("aria-checked", "false");
+      b.innerHTML = '<span class="lbl">' + opt + '</span><span class="num">' + val + '</span>';
+      b.addEventListener("click", () => {
+        coreAnswers[q.key] = val;
+        seg.querySelectorAll("button").forEach(x => {
+          x.classList.remove("selected", "v1", "v2", "v3");
+          x.setAttribute("aria-checked", "false");
+        });
+        b.classList.add("selected", "v" + val);
+        b.setAttribute("aria-checked", "true");
+        clearError();
+      });
+      seg.appendChild(b);
+    });
+
+    block.appendChild(seg);
+    microWrap.appendChild(block);
+  });
+
+  /* ---------- Submit ---------- */
   const form = document.getElementById("npsForm");
   const submitBtn = document.getElementById("submitBtn");
+  const errorEl = document.getElementById("error");
+  function clearError() { errorEl.style.display = "none"; }
+  function showError(msg) { errorEl.textContent = msg; errorEl.style.display = "block"; }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
     if (selectedScore === null) {
-      document.getElementById("error").style.display = "block";
+      showError("Please select a recommendation score from 0 to 10.");
+      return;
+    }
+    const unanswered = CORE_QUESTIONS.find(q => !coreAnswers[q.key]);
+    if (unanswered) {
+      showError("Please answer: “" + unanswered.text + "”");
       return;
     }
 
@@ -401,11 +387,11 @@
       page: location.href,
       userAgent: navigator.userAgent
     };
+    // Attach each core-value answer (numeric 1–3) by its key
+    CORE_QUESTIONS.forEach(q => { payload[q.key] = coreAnswers[q.key]; });
 
     try {
       if (ENDPOINT_URL && !ENDPOINT_URL.startsWith("PASTE_")) {
-        // Apps Script Web Apps don't send CORS headers; text/plain avoids a
-        // preflight and no-cors lets the row write reliably. Response is opaque.
         await fetch(ENDPOINT_URL, {
           method: "POST",
           mode: "no-cors",
@@ -413,16 +399,14 @@
           body: JSON.stringify(payload)
         });
       } else {
-        console.warn("ENDPOINT_URL not configured — logging payload instead:", payload);
+        console.warn("ENDPOINT_URL not configured — payload:", payload);
       }
       showThanks(selectedScore);
     } catch (err) {
       console.error(err);
       submitBtn.disabled = false;
       submitBtn.textContent = "Submit Feedback";
-      const el = document.getElementById("error");
-      el.textContent = "Sorry, something went wrong. Please try again.";
-      el.style.display = "block";
+      showError("Sorry, something went wrong. Please try again.");
     }
   });
 

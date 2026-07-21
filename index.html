@@ -131,8 +131,33 @@
     padding: 11px 13px; font-family: inherit; font-size: 14.5px; color: var(--slate);
   }
   .field input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245, 158, 11, .18); }
+  .field select {
+    width: 100%; border: 1px solid var(--border); border-radius: 10px;
+    padding: 11px 40px 11px 13px; font-family: inherit; font-size: 14.5px; color: var(--slate);
+    background-color: #fff; cursor: pointer; appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 13px center;
+  }
+  .field select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245, 158, 11, .18); }
   .row { display: flex; gap: 14px; }
   .row .field { flex: 1; }
+
+  /* Promoter extras (9–10) — animated reveal */
+  .promoter {
+    overflow: hidden; max-height: 0; opacity: 0; margin: 0;
+    transition: max-height .35s ease, opacity .3s ease, margin .3s ease;
+  }
+  .promoter.open { max-height: 460px; opacity: 1; margin: 0 0 24px; }
+  .promoter-inner {
+    background: #fffdf5; border: 1px solid rgba(245, 158, 11, .35);
+    border-radius: 12px; padding: 16px 16px 6px;
+  }
+  .promoter-inner .p-head { font-size: 14px; font-weight: 600; color: var(--navy); margin: 0 0 12px; }
+  .check-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; cursor: pointer; }
+  .check-row input[type="checkbox"] {
+    width: 18px; height: 18px; margin: 1px 0 0; flex-shrink: 0; accent-color: var(--gold); cursor: pointer;
+  }
+  .check-row span { font-size: 14px; color: var(--slate); line-height: 1.4; }
 
   button.submit {
     width: 100%; border: none; border-radius: 12px; padding: 15px;
@@ -200,7 +225,7 @@
         <path d="M381.237,111.724c2.828,0,5.209,2.24,5.209,5.208c0,2.968-2.381,5.208-5.209,5.208c-2.842,0-5.207-2.24-5.207-5.208C376.03,113.964,378.396,111.724,381.237,111.724z M381.237,121.384c2.381,0,4.285-1.932,4.285-4.452s-1.904-4.452-4.285-4.452c-2.393,0-4.283,1.932-4.283,4.452S378.845,121.384,381.237,121.384z M379.249,113.88h2.297c1.441,0,2.129,0.574,2.129,1.736c0,1.106-0.701,1.568-1.611,1.666l1.75,2.688h-0.994l-1.652-2.618h-0.992v2.618h-0.926V113.88z M380.175,116.596h0.951c0.826,0,1.623-0.042,1.623-1.022c0-0.84-0.727-0.938-1.357-0.938h-1.217V116.596z"/>
       </g>
     </svg>
-    <div class="subtitle">Client Feedback Survey</div>
+    <div class="subtitle">How are we doing?</div>
   </div>
 
   <div class="card">
@@ -208,6 +233,19 @@
     <form id="npsForm" novalidate>
       <h1>We'd love your feedback</h1>
       <p class="lede">This takes less than 2 minutes.</p>
+
+      <!-- Engagement / service line -->
+      <div class="field">
+        <label for="engagement">Which engagement is this feedback about?</label>
+        <select id="engagement" name="engagement">
+          <option value="" selected>Select an engagement…</option>
+          <option value="LSS Training">LSS Training</option>
+          <option value="Process Improvement / Kaizen">Process Improvement / Kaizen</option>
+          <option value="Supply Chain Consulting">Supply Chain Consulting</option>
+          <option value="Strategic Advisory">Strategic Advisory</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
 
       <!-- Q1: NPS -->
       <p class="question">How likely are you to recommend Supply Velocity to a colleague or another business?</p>
@@ -228,19 +266,40 @@
         <textarea id="reason" name="reason" placeholder="Tell us what's working well or what we could do better..."></textarea>
       </div>
 
-      <div class="row">
-        <div class="field">
-          <label>Your name <span>(optional)</span></label>
-          <input type="text" id="name" name="name" autocomplete="name" />
-        </div>
-        <div class="field">
-          <label>Company <span>(optional)</span></label>
-          <input type="text" id="company" name="company" autocomplete="organization" />
+      <!-- Promoter extras (revealed for scores 9–10) -->
+      <div class="promoter" id="promoterExtras" aria-hidden="true">
+        <div class="promoter-inner">
+          <p class="p-head">Since you're a fan — two quick optional extras 🎉</p>
+          <label class="check-row">
+            <input type="checkbox" id="testimonial" name="testimonial" />
+            <span>I'd be willing to provide a testimonial or public review.</span>
+          </label>
+          <div class="field">
+            <label>Know someone we could help? <span>(referral — optional)</span></label>
+            <input type="text" id="referralName" name="referralName" placeholder="Their name" />
+          </div>
+          <div class="field">
+            <label>Referral email <span>(optional)</span></label>
+            <input type="email" id="referralEmail" name="referralEmail" placeholder="their@email.com" />
+          </div>
         </div>
       </div>
-      <div class="field">
-        <label>Email <span>(optional — only if you'd like a follow-up)</span></label>
-        <input type="email" id="email" name="email" autocomplete="email" />
+
+      <div id="contactFields">
+        <div class="row">
+          <div class="field">
+            <label>Your name <span>(optional)</span></label>
+            <input type="text" id="name" name="name" autocomplete="name" />
+          </div>
+          <div class="field">
+            <label>Company <span>(optional)</span></label>
+            <input type="text" id="company" name="company" autocomplete="organization" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Email <span>(optional — only if you'd like a follow-up)</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" />
+        </div>
       </div>
 
       <button type="submit" class="submit" id="submitBtn">Submit Feedback</button>
@@ -279,12 +338,26 @@
 
   document.getElementById("yr").textContent = new Date().getFullYear();
 
-  // Optional: pre-tag a client via URL, e.g. ?company=Acme&name=Jane&email=jane@acme.com
+  // Optional: personalize a survey link via URL, e.g.
+  //   ?name=Jane&company=Acme&email=jane@acme.com&engagement=Strategic+Advisory
   const params = new URLSearchParams(location.search);
   if (params.get("client"))  document.getElementById("company").value = params.get("client");
   if (params.get("company")) document.getElementById("company").value = params.get("company");
   if (params.get("name"))    document.getElementById("name").value = params.get("name");
   if (params.get("email"))   document.getElementById("email").value = params.get("email");
+
+  // Pre-select the engagement if provided (matches an <option> value).
+  if (params.get("engagement")) {
+    const engSel = document.getElementById("engagement");
+    const wanted = params.get("engagement");
+    if ([...engSel.options].some(o => o.value === wanted)) engSel.value = wanted;
+  }
+
+  // Personalized link: if we already know who this is (name provided),
+  // hide the contact section — their identity is captured from the URL.
+  if (params.get("name")) {
+    document.getElementById("contactFields").style.display = "none";
+  }
 
   /* ---------- NPS 0–10 ---------- */
   let selectedScore = null;
@@ -300,6 +373,13 @@
   }
   function npsClass(s) { return s <= 6 ? "neg" : s <= 8 ? "neu" : "pos"; }
   function categoryName(s) { return s <= 6 ? "Detractor" : s <= 8 ? "Passive" : "Promoter"; }
+  function followupPrompt(s) {
+    if (s <= 6) return "What's the biggest thing we could improve?";
+    if (s <= 8) return "What would make us a 9 or 10?";
+    return "What do we do best?";
+  }
+  const promoterEl = document.getElementById("promoterExtras");
+  const reasonLabelEl = document.getElementById("reasonLabel");
   function selectScore(score, btn) {
     selectedScore = score;
     document.querySelectorAll(".scale button").forEach(b => {
@@ -308,6 +388,15 @@
     });
     btn.classList.add("selected", npsClass(score));
     btn.setAttribute("aria-checked", "true");
+
+    // Conditional follow-up prompt by NPS band.
+    reasonLabelEl.textContent = followupPrompt(score);
+
+    // Promoter extras (testimonial + referral) reveal only for 9–10.
+    const isPromoter = score >= 9;
+    promoterEl.classList.toggle("open", isPromoter);
+    promoterEl.setAttribute("aria-hidden", isPromoter ? "false" : "true");
+
     clearError();
   }
 
@@ -376,10 +465,15 @@
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting…";
 
+    const isPromoter = selectedScore >= 9;
     const payload = {
       score: selectedScore,
       category: categoryName(selectedScore),
+      engagement: document.getElementById("engagement").value,
       reason: document.getElementById("reason").value.trim(),
+      testimonial: isPromoter && document.getElementById("testimonial").checked ? "Yes" : "",
+      referralName: isPromoter ? document.getElementById("referralName").value.trim() : "",
+      referralEmail: isPromoter ? document.getElementById("referralEmail").value.trim() : "",
       name: document.getElementById("name").value.trim(),
       company: document.getElementById("company").value.trim(),
       email: document.getElementById("email").value.trim(),

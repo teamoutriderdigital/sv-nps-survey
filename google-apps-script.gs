@@ -34,10 +34,14 @@ var FIELD_LABELS = {
   timestamp:           "Timestamp",
   score:               "NPS Score (0-10)",
   category:            "NPS Category",
+  engagement:          "Engagement Type",
   value_delivered:     "Value Delivered (1-3)",
   quality:             "Quality of Work (1-3)",
   easy_to_do_business: "Easy to Do Business (1-3)",
   reason:              "Comments",
+  testimonial:         "Testimonial Willing",
+  referralName:        "Referral Name",
+  referralEmail:       "Referral Email",
   name:                "Name",
   company:             "Company",
   email:               "Email",
@@ -123,6 +127,7 @@ function sendDetractorAlert_(data) {
   var body =
     "A client submitted a low NPS score.\n\n" +
     "NPS Score:            " + data.score + " (" + data.category + ")\n" +
+    "Engagement:           " + (data.engagement || "—") + "\n" +
     "Value delivered:      " + (data.value_delivered || "—") + "\n" +
     "Quality of work:      " + (data.quality || "—") + "\n" +
     "Easy to do business:  " + (data.easy_to_do_business || "—") + "\n" +

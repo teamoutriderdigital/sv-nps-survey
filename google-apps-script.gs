@@ -39,12 +39,12 @@ var FIELD_LABELS = {
   quality:             "Quality of Work (1-3)",
   easy_to_do_business: "Easy to Do Business (1-3)",
   reason:              "Comments",
-  testimonial:         "Testimonial Willing",
-  referralName:        "Referral Name",
-  referralEmail:       "Referral Email",
   name:                "Name",
   company:             "Company",
   email:               "Email",
+  testimonial_willing: "Testimonial Willing",
+  referral_name:       "Referral Name",
+  referral_email:      "Referral Email",
   page:                "Source Page",
   userAgent:           "User Agent"
 };

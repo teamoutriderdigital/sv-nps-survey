@@ -72,7 +72,7 @@
 
   .divider { height: 1px; background: var(--border); margin: 4px 0 24px; border: 0; }
 
-  /* NPS 0–10 scale */
+  /* NPS 0-10 scale */
   .scale-labels {
     display: flex; justify-content: space-between;
     font-size: 12.5px; color: var(--slate-soft); margin-bottom: 8px;
@@ -95,7 +95,7 @@
   .scale button.selected.neu { background: var(--neu); }
   .scale button.selected.pos { background: var(--pos); }
 
-  /* 1–3 core-value questions (segmented control) */
+  /* 1-3 core-value questions (segmented control) */
   .micro { margin-bottom: 24px; }
   .micro .question { margin-bottom: 10px; }
   .seg { display: flex; gap: 8px; }
@@ -126,38 +126,59 @@
   .field { margin-bottom: 18px; }
   .field label { display: block; font-size: 13.5px; font-weight: 600; color: var(--navy); margin-bottom: 7px; }
   .field label span { font-weight: 400; color: var(--slate-soft); }
-  .field input {
+  .field input, .field select {
     width: 100%; border: 1px solid var(--border); border-radius: 10px;
     padding: 11px 13px; font-family: inherit; font-size: 14.5px; color: var(--slate);
+    background: #fff; appearance: none; -webkit-appearance: none;
   }
-  .field input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245, 158, 11, .18); }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245, 158, 11, .18); }
   .field select {
-    width: 100%; border: 1px solid var(--border); border-radius: 10px;
-    padding: 11px 40px 11px 13px; font-family: inherit; font-size: 14.5px; color: var(--slate);
-    background-color: #fff; cursor: pointer; appearance: none; -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 13px center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
   }
-  .field select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245, 158, 11, .18); }
   .row { display: flex; gap: 14px; }
   .row .field { flex: 1; }
 
-  /* Promoter extras (9–10) — animated reveal */
-  .promoter {
-    overflow: hidden; max-height: 0; opacity: 0; margin: 0;
-    transition: max-height .35s ease, opacity .3s ease, margin .3s ease;
+  /* Conditional sections */
+  .conditional {
+    max-height: 0; overflow: hidden; opacity: 0;
+    transition: max-height .35s ease, opacity .25s ease, margin .25s ease;
+    margin-top: 0;
   }
-  .promoter.open { max-height: 460px; opacity: 1; margin: 0 0 24px; }
-  .promoter-inner {
-    background: #fffdf5; border: 1px solid rgba(245, 158, 11, .35);
-    border-radius: 12px; padding: 16px 16px 6px;
+  .conditional.visible {
+    max-height: 600px; opacity: 1; margin-top: 0;
   }
-  .promoter-inner .p-head { font-size: 14px; font-weight: 600; color: var(--navy); margin: 0 0 12px; }
-  .check-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 14px; cursor: pointer; }
+
+  /* Promoter extras */
+  .promoter-extras { margin-bottom: 8px; }
+
+  .check-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 18px; cursor: pointer;
+  }
   .check-row input[type="checkbox"] {
-    width: 18px; height: 18px; margin: 1px 0 0; flex-shrink: 0; accent-color: var(--gold); cursor: pointer;
+    width: 20px; height: 20px; margin-top: 1px;
+    accent-color: var(--pos); cursor: pointer; flex-shrink: 0;
   }
-  .check-row span { font-size: 14px; color: var(--slate); line-height: 1.4; }
+  .check-row .check-label {
+    font-size: 14.5px; color: var(--navy); font-weight: 500; line-height: 1.4;
+  }
+  .check-row .check-sub {
+    font-size: 13px; color: var(--slate-soft); font-weight: 400;
+  }
+
+  .referral-box {
+    background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px;
+    padding: 18px; margin-bottom: 20px;
+  }
+  .referral-box .question { font-size: 14.5px; margin-bottom: 12px; color: var(--navy); }
+  .referral-box .field { margin-bottom: 12px; }
+  .referral-box .field:last-child { margin-bottom: 0; }
+  .referral-box .field label { font-size: 12.5px; }
+  .referral-box .field input { padding: 9px 12px; font-size: 13.5px; }
 
   button.submit {
     width: 100%; border: none; border-radius: 12px; padding: 15px;
@@ -178,7 +199,7 @@
   }
   .thanks .check svg { width: 30px; height: 30px; stroke: var(--pos); }
   .thanks h2 { color: var(--navy); font-size: 21px; margin: 0 0 8px; }
-  .thanks p { color: var(--slate-soft); font-size: 15px; margin: 0; }
+  .thanks p { color: var(--slate-soft); font-size: 15px; margin: 0; line-height: 1.5; }
 
   @media (max-width: 460px) {
     .card { padding: 26px 20px 24px; }
@@ -187,6 +208,7 @@
     .seg button { padding: 10px 4px; }
     .seg button .lbl { font-size: 13px; }
     .row { flex-direction: column; gap: 0; }
+    .referral-box { padding: 14px; }
   }
 </style>
 </head>
@@ -234,19 +256,6 @@
       <h1>We'd love your feedback</h1>
       <p class="lede">This takes less than 2 minutes.</p>
 
-      <!-- Engagement / service line -->
-      <div class="field">
-        <label for="engagement">Which engagement is this feedback about?</label>
-        <select id="engagement" name="engagement">
-          <option value="" selected>Select an engagement…</option>
-          <option value="LSS Training">LSS Training</option>
-          <option value="Process Improvement / Kaizen">Process Improvement / Kaizen</option>
-          <option value="Supply Chain Consulting">Supply Chain Consulting</option>
-          <option value="Strategic Advisory">Strategic Advisory</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-
       <!-- Q1: NPS -->
       <p class="question">How likely are you to recommend Supply Velocity to a colleague or another business?</p>
       <div class="scale-labels">
@@ -257,34 +266,56 @@
 
       <hr class="divider" />
 
+      <!-- Engagement / service-line selector -->
+      <div class="field" style="margin-bottom: 24px;">
+        <p class="question" style="margin-bottom: 10px;">Which engagement is this feedback about?</p>
+        <select id="engagement" name="engagement">
+          <option value="">Select one...</option>
+          <option value="Lean Six Sigma Training">Lean Six Sigma Training</option>
+          <option value="Process Improvement / Kaizen">Process Improvement / Kaizen</option>
+          <option value="Supply Chain Consulting">Supply Chain Consulting</option>
+          <option value="Strategic Advisory">Strategic Advisory</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
       <!-- Core-value questions (generated from CORE_QUESTIONS below) -->
       <div id="microQuestions"></div>
 
-      <!-- Comments -->
+      <!-- Conditional follow-up (prompt changes based on NPS band) -->
       <div class="followup">
         <p class="question" id="reasonLabel">Any additional comments?</p>
         <textarea id="reason" name="reason" placeholder="Tell us what's working well or what we could do better..."></textarea>
       </div>
 
-      <!-- Promoter extras (revealed for scores 9–10) -->
-      <div class="promoter" id="promoterExtras" aria-hidden="true">
-        <div class="promoter-inner">
-          <p class="p-head">Since you're a fan — two quick optional extras 🎉</p>
+      <!-- Promoter extras: testimonial + referral (hidden until score 9-10) -->
+      <div class="conditional" id="promoterExtras">
+        <div class="promoter-extras">
+          <hr class="divider" />
+
           <label class="check-row">
-            <input type="checkbox" id="testimonial" name="testimonial" />
-            <span>I'd be willing to provide a testimonial or public review.</span>
+            <input type="checkbox" id="testimonialWilling" />
+            <div>
+              <div class="check-label">I'd be open to sharing a brief testimonial</div>
+              <div class="check-sub">A sentence or two we could use on our site or proposals</div>
+            </div>
           </label>
-          <div class="field">
-            <label>Know someone we could help? <span>(referral — optional)</span></label>
-            <input type="text" id="referralName" name="referralName" placeholder="Their name" />
-          </div>
-          <div class="field">
-            <label>Referral email <span>(optional)</span></label>
-            <input type="email" id="referralEmail" name="referralEmail" placeholder="their@email.com" />
+
+          <div class="referral-box">
+            <p class="question">Know someone who could benefit from our help?</p>
+            <div class="field">
+              <label>Their name <span>(optional)</span></label>
+              <input type="text" id="referralName" name="referralName" />
+            </div>
+            <div class="field">
+              <label>Their email <span>(optional)</span></label>
+              <input type="email" id="referralEmail" name="referralEmail" />
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- Contact fields (hidden when URL params identify the respondent) -->
       <div id="contactFields">
         <div class="row">
           <div class="field">
@@ -297,7 +328,7 @@
           </div>
         </div>
         <div class="field">
-          <label>Email <span>(optional — only if you'd like a follow-up)</span></label>
+          <label>Email <span>(optional &mdash; only if you'd like a follow-up)</span></label>
           <input type="email" id="email" name="email" autocomplete="email" />
         </div>
       </div>
@@ -313,7 +344,7 @@
           <path d="M20 6 9 17l-5-5"/>
         </svg>
       </div>
-      <h2>Thank you for your feedback!</h2>
+      <h2 id="thanksHeading">Thank you for your feedback!</h2>
       <p id="thanksMsg">We truly appreciate you taking the time to help us improve.</p>
     </div>
   </div>
@@ -327,39 +358,48 @@
      ================================================================= */
   const ENDPOINT_URL = "https://script.google.com/a/macros/outriderdigital.com/s/AKfycbzkdwq5qco-Alq6XY5uqDgkLuu61Y_jcMfOboRU5sN3ToTpzb9PzquuDnxG05mOIokH/exec";
 
-  // Supply Velocity's three core-value questions (1–3 scale).
+  // Supply Velocity's three core-value questions (1-3 scale).
   // To DROP a question (e.g. "Quality"), just delete its line here.
   // To ADD one, copy the pattern. No other changes needed.
   const CORE_QUESTIONS = [
-    { key: "value_delivered",     text: "Was working with Supply Velocity valuable?", options: ["No", "Neutral", "Yes"] },
-    { key: "easy_to_do_business", text: "Was Supply Velocity easy to work with?",      options: ["No", "Neutral", "Yes"] }
+    { key: "value_delivered",     text: "Did we deliver value?",                     options: ["No", "Neutral", "Yes"] },
+    { key: "easy_to_do_business", text: "Were we easy to do business with?",         options: ["No", "Neutral", "Yes"] }
   ];
+
+  // Score-band-specific follow-up prompts
+  const FOLLOW_UP = {
+    detractor: { label: "What's the biggest thing we could improve?",  placeholder: "We want to make it right. What fell short?" },
+    passive:   { label: "What would make us a 9 or 10?",              placeholder: "What would take us from good to great for you?" },
+    promoter:  { label: "What do we do best?",                        placeholder: "What stands out about working with Supply Velocity?" },
+    default:   { label: "Any additional comments?",                   placeholder: "Tell us what's working well or what we could do better..." }
+  };
   /* ================================================================= */
 
   document.getElementById("yr").textContent = new Date().getFullYear();
 
-  // Optional: personalize a survey link via URL, e.g.
-  //   ?name=Jane&company=Acme&email=jane@acme.com&engagement=Strategic+Advisory
+  // Pre-tag a client via URL, e.g. ?company=Acme&name=Jane&email=jane@acme.com
   const params = new URLSearchParams(location.search);
   if (params.get("client"))  document.getElementById("company").value = params.get("client");
   if (params.get("company")) document.getElementById("company").value = params.get("company");
   if (params.get("name"))    document.getElementById("name").value = params.get("name");
   if (params.get("email"))   document.getElementById("email").value = params.get("email");
 
-  // Pre-select the engagement if provided (matches an <option> value).
-  if (params.get("engagement")) {
-    const engSel = document.getElementById("engagement");
-    const wanted = params.get("engagement");
-    if ([...engSel.options].some(o => o.value === wanted)) engSel.value = wanted;
-  }
-
-  // Personalized link: if we already know who this is (name provided),
-  // hide the contact section — their identity is captured from the URL.
-  if (params.get("name")) {
+  // Hide contact fields when identity is provided via URL
+  const hasIdentity = (params.get("name") || params.get("company") || params.get("client")) && params.get("email");
+  if (hasIdentity) {
     document.getElementById("contactFields").style.display = "none";
   }
 
-  /* ---------- NPS 0–10 ---------- */
+  // Pre-select engagement if passed via URL
+  if (params.get("engagement")) {
+    const engEl = document.getElementById("engagement");
+    const engVal = params.get("engagement");
+    for (let i = 0; i < engEl.options.length; i++) {
+      if (engEl.options[i].value === engVal) { engEl.selectedIndex = i; break; }
+    }
+  }
+
+  /* ---------- NPS 0-10 ---------- */
   let selectedScore = null;
   const scaleEl = document.getElementById("scale");
   for (let i = 0; i <= 10; i++) {
@@ -373,13 +413,8 @@
   }
   function npsClass(s) { return s <= 6 ? "neg" : s <= 8 ? "neu" : "pos"; }
   function categoryName(s) { return s <= 6 ? "Detractor" : s <= 8 ? "Passive" : "Promoter"; }
-  function followupPrompt(s) {
-    if (s <= 6) return "What's the biggest thing we could improve?";
-    if (s <= 8) return "What would make us a 9 or 10?";
-    return "What do we do best?";
-  }
-  const promoterEl = document.getElementById("promoterExtras");
-  const reasonLabelEl = document.getElementById("reasonLabel");
+  function npsBand(s) { return s <= 6 ? "detractor" : s <= 8 ? "passive" : "promoter"; }
+
   function selectScore(score, btn) {
     selectedScore = score;
     document.querySelectorAll(".scale button").forEach(b => {
@@ -388,20 +423,26 @@
     });
     btn.classList.add("selected", npsClass(score));
     btn.setAttribute("aria-checked", "true");
-
-    // Conditional follow-up prompt by NPS band.
-    reasonLabelEl.textContent = followupPrompt(score);
-
-    // Promoter extras (testimonial + referral) reveal only for 9–10.
-    const isPromoter = score >= 9;
-    promoterEl.classList.toggle("open", isPromoter);
-    promoterEl.setAttribute("aria-hidden", isPromoter ? "false" : "true");
-
+    updateFollowUp(score);
     clearError();
   }
 
-  /* ---------- Core-value questions (1–3) ---------- */
-  const coreAnswers = {};   // key -> 1 | 2 | 3
+  function updateFollowUp(score) {
+    const band = npsBand(score);
+    const cfg = FOLLOW_UP[band] || FOLLOW_UP.default;
+    document.getElementById("reasonLabel").textContent = cfg.label;
+    document.getElementById("reason").placeholder = cfg.placeholder;
+
+    const extras = document.getElementById("promoterExtras");
+    if (band === "promoter") {
+      extras.classList.add("visible");
+    } else {
+      extras.classList.remove("visible");
+    }
+  }
+
+  /* ---------- Core-value questions (1-3) ---------- */
+  const coreAnswers = {};
   const microWrap = document.getElementById("microQuestions");
   CORE_QUESTIONS.forEach(q => {
     const block = document.createElement("div");
@@ -419,7 +460,7 @@
     seg.setAttribute("aria-label", q.text);
 
     q.options.forEach((opt, idx) => {
-      const val = idx + 1; // 1, 2, 3
+      const val = idx + 1;
       const b = document.createElement("button");
       b.type = "button";
       b.setAttribute("role", "radio");
@@ -458,29 +499,27 @@
     }
     const unanswered = CORE_QUESTIONS.find(q => !coreAnswers[q.key]);
     if (unanswered) {
-      showError("Please answer: “" + unanswered.text + "”");
+      showError('Please answer: “' + unanswered.text + '”');
       return;
     }
 
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting…";
 
-    const isPromoter = selectedScore >= 9;
     const payload = {
       score: selectedScore,
       category: categoryName(selectedScore),
       engagement: document.getElementById("engagement").value,
       reason: document.getElementById("reason").value.trim(),
-      testimonial: isPromoter && document.getElementById("testimonial").checked ? "Yes" : "",
-      referralName: isPromoter ? document.getElementById("referralName").value.trim() : "",
-      referralEmail: isPromoter ? document.getElementById("referralEmail").value.trim() : "",
       name: document.getElementById("name").value.trim(),
       company: document.getElementById("company").value.trim(),
       email: document.getElementById("email").value.trim(),
+      testimonial_willing: document.getElementById("testimonialWilling").checked ? "Yes" : "No",
+      referral_name: document.getElementById("referralName").value.trim(),
+      referral_email: document.getElementById("referralEmail").value.trim(),
       page: location.href,
       userAgent: navigator.userAgent
     };
-    // Attach each core-value answer (numeric 1–3) by its key
     CORE_QUESTIONS.forEach(q => { payload[q.key] = coreAnswers[q.key]; });
 
     try {
@@ -505,11 +544,17 @@
 
   function showThanks(score) {
     form.style.display = "none";
+    const heading = document.getElementById("thanksHeading");
     const msg = document.getElementById("thanksMsg");
     if (score <= 6) {
-      msg.textContent = "We appreciate your honesty — a member of our team may reach out to make things right.";
+      heading.textContent = "Thank you for your honesty.";
+      msg.textContent = "Your feedback helps us get better. A member of our team may reach out to make things right.";
     } else if (score >= 9) {
-      msg.textContent = "We're thrilled you're happy. If you have a moment, we'd love a public review too!";
+      heading.textContent = "We're glad to hear it!";
+      msg.textContent = "Thank you for being an advocate. If you shared a referral or opted into a testimonial, we'll be in touch soon.";
+    } else {
+      heading.textContent = "Thank you for your feedback!";
+      msg.textContent = "We appreciate you helping us improve. Your input directly shapes how we work.";
     }
     document.getElementById("thanks").style.display = "block";
   }
